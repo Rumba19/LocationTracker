@@ -134,4 +134,20 @@ public partial class MainPage : ContentPage
         }
     }
  
+private void OnZoomIn(object sender, EventArgs e)
+{
+    var currentRegion = map.VisibleRegion;
+    if (currentRegion != null)
+    {
+        var center = currentRegion.Center;
+        var currentRadius = currentRegion.Radius.Meters;
+        
+        // Zoom in by reducing radius by half
+        map.MoveToRegion(MapSpan.FromCenterAndRadius(
+            center,
+            Distance.FromMeters(currentRadius / 2)));
+    }
+}
+
+
 }
