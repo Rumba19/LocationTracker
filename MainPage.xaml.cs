@@ -10,6 +10,12 @@ public partial class MainPage : ContentPage
     private DatabaseService _database;
     private IDispatcherTimer _timer;
     private bool _isTracking = false;
+    
+    // Test mode variables
+    private double _testStartLat;
+    private double _testStartLon;
+    private int _testPointIndex = 0;
+    private const double _testDistanceStep = 0.002; 
 
     public MainPage()
     {
@@ -27,14 +33,23 @@ public partial class MainPage : ContentPage
 
     private async void OnStartTracking(object sender, EventArgs e)
     {
-        // Request location permission
-        var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-        
-        if (status != PermissionStatus.Granted)
+        // Get initial location for test data
+        var currentLocation = await Geolocation.GetLocationAsync(new GeolocationRequest
         {
-            await DisplayAlert("Permission Denied", "Location permission is required to track your location", "OK");
+            DesiredAccuracy = GeolocationAccuracy.Best,
+            Timeout = TimeSpan.FromSeconds(10)
+        });
+
+        if (currentLocation == null)
+        {
+            await DisplayAlert("Error", "Could not get your current location", "OK");
             return;
         }
+
+        // Store starting position for test data
+        _testStartLat = currentLocation.Latitude;
+        _testStartLon = currentLocation.Longitude;
+        _testPointIndex = 0;
 
         // Start tracking
         _isTracking = true;
@@ -42,7 +57,7 @@ public partial class MainPage : ContentPage
         StopButton.IsEnabled = true;    // Enable Stop button
         _timer.Start();                 // Start the timer
         
-        await DisplayAlert("Tracking Started", "Location is being tracked every 5 seconds", "OK");
+        await DisplayAlert("Tracking Started", "Generating test locations every 5 seconds along a path", "OK");
     }
 
     private void OnStopTracking(object sender, EventArgs e)
@@ -60,43 +75,40 @@ public partial class MainPage : ContentPage
     {
         try
         {
-            var location = await Geolocation.GetLocationAsync(new GeolocationRequest
-            {
-                DesiredAccuracy = GeolocationAccuracy.Best,
-                Timeout = TimeSpan.FromSeconds(10)
-            });
+            // Generate test location along a straight path (North)
+            double lat = _testStartLat + (_testPointIndex * _testDistanceStep);
+            double lon = _testStartLon;
 
-            if (location != null)
+            // Save to database
+            var locationPoint = new LocationPoint
             {
-                // Save to database
-                var locationPoint = new LocationPoint
-                {
-                    Latitude = location.Latitude,
-                    Longitude = location.Longitude,
-                    Timestamp = DateTime.Now
-                };
-
-                await _database.SaveLocationAsync(locationPoint);
-                
-                // Add a blue circle to the map (heat map point)
-                var circle = new Circle
-                {
-                    Center = new Location(location.Latitude, location.Longitude),
-                    Radius = new Distance(50), // 50 meters radius
-                    StrokeColor = Color.FromRgba(59, 130, 246, 200), // Blue with transparency
-                    FillColor = Color.FromRgba(59, 130, 246, 100),
-                    StrokeWidth = 2
-                };
-                map.MapElements.Add(circle);
-                
-                // Center map on current location
-                map.MoveToRegion(MapSpan.FromCenterAndRadius(
-                    new Location(location.Latitude, location.Longitude),
-                    Distance.FromKilometers(1)));
-                
-                // Log to console (for debugging)
-                System.Diagnostics.Debug.WriteLine($"Location saved: {location.Latitude}, {location.Longitude}");
-            }
+                Latitude = lat,
+                Longitude = lon,
+                Timestamp = DateTime.Now
+            };
+            await _database.SaveLocationAsync(locationPoint);
+            
+            // Add circle to map
+            var circle = new Circle
+            {
+                Center = new Location(lat, lon),
+                Radius = new Distance(40),
+                StrokeColor = Color.FromRgba(59, 130, 246, 220),
+                FillColor = Color.FromRgba(59, 130, 246, 120),
+                StrokeWidth = 2
+            };
+            map.MapElements.Add(circle);
+            
+            // Center map on current location
+            map.MoveToRegion(MapSpan.FromCenterAndRadius(
+                new Location(lat, lon),
+                Distance.FromKilometers(2)));
+            
+            // Increment for next point
+            _testPointIndex++;
+            
+            // Log to console
+            System.Diagnostics.Debug.WriteLine($"Test location {_testPointIndex} saved: {lat}, {lon}");
         }
         catch (Exception ex)
         {
@@ -104,86 +116,22 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // Placeholder for Clear Data (we'll implement this next)
-    private void OnClearData(object sender, EventArgs e)
+    private async void OnClearData(object sender, EventArgs e)
     {
-        DisplayAlert("Info", "Clear Data - Not implemented yet", "OK");
+        bool confirm = await DisplayAlert("Clear Data", "Remove all tracked locations from map and database?", "Yes", "No");
+        if (confirm)
+        {
+            // Clear database
+            await _database.ClearLocationsAsync();
+            
+            // Clear all circles from map
+            map.MapElements.Clear();
+            
+            // Reset test counter
+            _testPointIndex = 0;
+            
+            await DisplayAlert("Success", "All location data cleared!", "OK");
+        }
     }
-
-	private async void OnTestHeatMap(object sender, EventArgs e)
-	{
-		try
-		{
-			// Get current location first
-			var currentLocation = await Geolocation.GetLocationAsync(new GeolocationRequest
-			{
-				DesiredAccuracy = GeolocationAccuracy.Best,
-				Timeout = TimeSpan.FromSeconds(10)
-			});
-
-			if (currentLocation == null)
-			{
-				await DisplayAlert("Error", "Could not get your current location", "OK");
-				return;
-			}
-
-			await DisplayAlert("Test Mode", "Generating locations along a straight path...", "OK");
-
-			double startLat = currentLocation.Latitude;
-			double startLon = currentLocation.Longitude;
-
-			// Create a straight line going North (you can change direction)
-			int pointCount = 50;
-			double distanceStep = 0.0002; // About 20-25 meters per step
-
-			for (int i = 0; i < pointCount; i++)
-			{
-				// Option 1: Go North (increase latitude)
-				double lat = startLat + (i * distanceStep);
-				double lon = startLon;
-
-				// Option 2: Go East (uncomment to use instead)
-				// double lat = startLat;
-				// double lon = startLon + (i * distanceStep);
-
-				// Option 3: Diagonal North-East (uncomment to use instead)
-				// double lat = startLat + (i * distanceStep);
-				// double lon = startLon + (i * distanceStep * 0.5);
-
-				// Save to database
-				var locationPoint = new LocationPoint
-				{
-					Latitude = lat,
-					Longitude = lon,
-					Timestamp = DateTime.Now.AddSeconds(i * -10) // 10 seconds apart
-				};
-				await _database.SaveLocationAsync(locationPoint);
-
-				// Add circle to map
-				var circle = new Circle
-				{
-					Center = new Location(lat, lon),
-					Radius = new Distance(40),
-					StrokeColor = Color.FromRgba(59, 130, 246, 220),
-					FillColor = Color.FromRgba(59, 130, 246, 120),
-					StrokeWidth = 2
-				};
-				map.MapElements.Add(circle);
-
-				// Small delay for visual effect
-				await Task.Delay(50);
-			}
-
-			// Center map to show the entire path
-			map.MoveToRegion(MapSpan.FromCenterAndRadius(
-				new Location(startLat + (pointCount * distanceStep / 2), startLon),
-				Distance.FromKilometers(1.5)));
-
-			await DisplayAlert("Test Complete", $"{pointCount} locations generated along a straight path!", "OK");
-		}
-		catch (Exception ex)
-		{
-			await DisplayAlert("Error", $"Test failed: {ex.Message}", "OK");
-		}
-	}
+ 
 }

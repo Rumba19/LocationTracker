@@ -9,7 +9,9 @@
         <!-- Map -->
         <maps:Map x:Name="map" 
                   IsShowingUser="True"
-                  MapType="Street" />
+                  MapType="Street"
+                  IsScrollEnabled="True"
+                  IsZoomEnabled="True"  />
         
         <!-- Controls Overlay -->
         <VerticalStackLayout Grid.Row="0" 
@@ -40,13 +42,7 @@
                     TextColor="White"
                     HeightRequest="50"
                     CornerRadius="10"/>
-                       <!--  TEST BUTTON -->
-                <Button Text="Test Heat Map" 
-                        Clicked="OnTestHeatMap"
-                        BackgroundColor="#10B981"
-                        TextColor="White"
-                        HeightRequest="50"
-                        CornerRadius="10"/>
+                       
         </VerticalStackLayout>
     </Grid>
 </ContentPage>
