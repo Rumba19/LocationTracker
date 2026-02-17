@@ -12,7 +12,34 @@
                   MapType="Street"
                   IsScrollEnabled="True"
                   IsZoomEnabled="True"  />
-        
+         <!-- Zoom Controls (Top Right) -->
+        <VerticalStackLayout Grid.Row="0"
+                             HorizontalOptions="End"
+                             VerticalOptions="Start"
+                             Margin="20"
+                             Spacing="10">
+            <Button Text="+"
+                    Clicked="OnZoomIn"
+                    BackgroundColor="#FFFFFF"
+                    TextColor="#000000"
+                    WidthRequest="50"
+                    HeightRequest="50"
+                    CornerRadius="25"
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    Shadow="{Shadow Brush=Black, Opacity=0.3, Radius=5, Offset='2,2'}"/>
+            
+            <Button Text="-"
+                    Clicked="OnZoomOut"
+                    BackgroundColor="#FFFFFF"
+                    TextColor="#000000"
+                    WidthRequest="50"
+                    HeightRequest="50"
+                    CornerRadius="25"
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    Shadow="{Shadow Brush=Black, Opacity=0.3, Radius=5, Offset='2,2'}"/>
+        </VerticalStackLayout>
         <!-- Controls Overlay -->
         <VerticalStackLayout Grid.Row="0" 
                            VerticalOptions="End"
