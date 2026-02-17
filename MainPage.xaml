@@ -40,6 +40,13 @@
                     TextColor="White"
                     HeightRequest="50"
                     CornerRadius="10"/>
+                       <!--  TEST BUTTON -->
+                <Button Text="Test Heat Map" 
+                        Clicked="OnTestHeatMap"
+                        BackgroundColor="#10B981"
+                        TextColor="White"
+                        HeightRequest="50"
+                        CornerRadius="10"/>
         </VerticalStackLayout>
     </Grid>
 </ContentPage>
