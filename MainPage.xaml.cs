@@ -148,6 +148,19 @@ private void OnZoomIn(object sender, EventArgs e)
             Distance.FromMeters(currentRadius / 2)));
     }
 }
-
+private void OnZoomOut(object sender, EventArgs e)
+{
+    var currentRegion = map.VisibleRegion;
+    if (currentRegion != null)
+    {
+        var center = currentRegion.Center;
+        var currentRadius = currentRegion.Radius.Meters;
+        
+        // Zoom out by doubling the radius
+        map.MoveToRegion(MapSpan.FromCenterAndRadius(
+            center,
+            Distance.FromMeters(currentRadius * 2)));
+    }
+}
 
 }
