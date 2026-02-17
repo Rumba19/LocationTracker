@@ -1,23 +1,32 @@
-﻿namespace LocationTracker;
+﻿using LocationTracker.Services;
+
+namespace LocationTracker;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+ private DatabaseService _database;
 
 	public MainPage()
 	{
 		InitializeComponent();
+		 // Initialize database
+        string dbPath = Path.Combine(FileSystem.AppDataDirectory, "locations.db3");
+        _database = new DatabaseService(dbPath);
 	}
 
-	private void OnCounterClicked(object? sender, EventArgs e)
-	{
-		count++;
+	  // Empty handlers for other buttons (we'll implement these later)
+	private void OnStartTracking(object sender, EventArgs e)
+    {
+        DisplayAlert("Info", "Start Tracking - Not implemented yet", "OK");
+    }
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
+    private void OnStopTracking(object sender, EventArgs e)
+    {
+        DisplayAlert("Info", "Stop Tracking - Not implemented yet", "OK");
+    }
 
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+    private void OnClearData(object sender, EventArgs e)
+    {
+        DisplayAlert("Info", "Clear Data - Not implemented yet", "OK");
+    }
 }
