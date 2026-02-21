@@ -168,6 +168,7 @@ The app includes a test mode that simulates movement by generating fake GPS coor
     <td colspan="3" align="center"><img src="/Output/FinalView.png" width="250" alt="Final View"><br><b>Final View</b></td>
   </tr>
 </table>
+
 ##  Dependencies
 ```xml
 <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
@@ -176,7 +177,7 @@ The app includes a test mode that simulates movement by generating fake GPS coor
 <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
 ```
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 - [ ] Real GPS tracking (currently using test data)
 - [ ] Export location history to CSV/JSON
