@@ -153,6 +153,12 @@ The app includes a test mode that simulates movement by generating fake GPS coor
 
 ## Output
 1. **MainView**: ![mainView](Output/MainView.png)
+2. **StartTracking**: ![startTrack](Output/StartTracking.png)
+3. **Heatmap**: ![Heatmap](Output/HeatMap.png)
+4. **StopTracking**: ![stopTrack](Output/StopTracking.png)
+5. **ClearData**: ![clearData](Output/ClearData.png)
+6. **Confirmation**: ![confirmation](Output/Confirmation.png)
+7. **FinalView**: ![finalView](Output/FinalView.png)
 
 ##  Dependencies
 ```xml
