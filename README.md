@@ -151,7 +151,8 @@ The app includes a test mode that simulates movement by generating fake GPS coor
 - **Spacing**: ~20-25 meters between points
 - **Purpose**: Demonstrates heat map visualization without physical movement
 
-
+## Output
+1. **MainView**: ![mainView](Output/MainView.png)
 
 ##  Dependencies
 ```xml
