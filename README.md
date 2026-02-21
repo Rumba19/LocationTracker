@@ -56,7 +56,7 @@ sudo dotnet workload install maui
 dotnet restore
 ```
 
-## 🏃 Running the Application
+## Running the Application
 
 ### Run on Mac Catalyst (macOS)
 ```bash
@@ -73,7 +73,7 @@ dotnet build -t:Run -f net10.0-ios
 dotnet build -t:Run -f net10.0-android
 ```
 
-## 📱 Platform-Specific Setup
+##  Platform-Specific Setup
 
 ### Android
 
@@ -89,7 +89,7 @@ Location permissions are already configured in `Platforms/iOS/Info.plist`:
 - `NSLocationWhenInUseUsageDescription`
 - `NSLocationAlwaysUsageDescription`
 
-## 🎯 Usage
+## Usage
 
 1. **Start Tracking**: 
    - Click the blue "Start Tracking" button
@@ -107,25 +107,8 @@ Location permissions are already configured in `Platforms/iOS/Info.plist`:
    - Use the **-** button to zoom out
    - Or use trackpad gestures (pinch to zoom, drag to pan)
 
-## 📂 Project Structure
-```
-LocationTracker/
-├── Models/
-│   └── LocationPoint.cs          # Data model for location points
-├── Services/
-│   └── DatabaseService.cs        # SQLite database operations
-├── Platforms/
-│   ├── Android/
-│   │   └── AndroidManifest.xml   # Android permissions
-│   └── iOS/
-│       └── Info.plist            # iOS permissions
-├── MainPage.xaml                 # UI layout
-├── MainPage.xaml.cs              # Business logic
-├── MauiProgram.cs                # App configuration
-└── LocationTracker.csproj        # Project file
-```
 
-## 🗄️ Database Schema
+##  Database Schema
 
 **LocationPoint Table:**
 
@@ -136,7 +119,7 @@ LocationTracker/
 | Longitude | REAL     | GPS longitude coordinate         |
 | Timestamp | TEXT     | Date and time of capture         |
 
-## 🔧 Configuration
+##  Configuration
 
 ### Tracking Interval
 
@@ -159,7 +142,7 @@ Modify the initial zoom in `SetInitialMapLocation()`:
 Distance.FromKilometers(5) // Change 5 to desired kilometers
 ```
 
-## 🧪 Test Mode
+##  Test Mode
 
 The app includes a test mode that simulates movement by generating fake GPS coordinates:
 
@@ -168,60 +151,15 @@ The app includes a test mode that simulates movement by generating fake GPS coor
 - **Spacing**: ~20-25 meters between points
 - **Purpose**: Demonstrates heat map visualization without physical movement
 
-## 🐛 Troubleshooting
 
-### Map Not Showing
 
-- Ensure `.UseMauiMaps()` is in `MauiProgram.cs`
-- Check that location permissions are granted
-- Verify internet connection (maps require data)
-
-### Android Build Errors
-
-If you see "Could not find android.jar for API level 36":
-- Add `<AndroidTargetSdkVersion>34</AndroidTargetSdkVersion>` to `.csproj`
-- Or install the required Android SDK platform
-
-### Location Permission Denied
-
-- Go to System Settings → Privacy & Security → Location Services
-- Enable location access for the LocationTracker app
-
-## 📦 Dependencies
+##  Dependencies
 ```xml
 <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="10.0.30" />
 <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
 ```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 👨‍💻 Author
-
-**Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-
-## 🙏 Acknowledgments
-
-- Built with [.NET MAUI](https://dotnet.microsoft.com/apps/maui)
-- Maps powered by [Microsoft.Maui.Controls.Maps](https://learn.microsoft.com/en-us/dotnet/maui/user-interface/controls/map)
-- SQLite ORM by [sqlite-net-pcl](https://github.com/praeclarum/sqlite-net)
-
-## 📸 Screenshots
-
 
 ## 🔮 Future Enhancements
 
@@ -233,4 +171,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [ ] Route playback animation
 - [ ] Location statistics dashboard
 
----
