@@ -160,6 +160,23 @@ The app includes a test mode that simulates movement by generating fake GPS coor
 6. **Confirmation**: ![confirmation](Output/Confirmation.png)
 7. **FinalView**: ![finalView](Output/FinalView.png)
 
+## Screenshots
+
+<table>
+  <tr>
+    <td><img src="/Output/MainView.png" width="250" alt="Main View"><br><b>Main View</b></td>
+    <td><img src="/Output/StartTracking.png" width="250" alt="Start Tracking"><br><b>Start Tracking</b></td>
+    <td><img src="/Output/HeatMap.png" width="250" alt="Heat Map"><br><b>Heat Map</b></td>
+  </tr>
+  <tr>
+    <td><img src="/Output/StopTracking.png" width="250" alt="Stop Tracking"><br><b>Stop Tracking</b></td>
+    <td><img src="/Output/ClearData.png" width="250" alt="Clear Data"><br><b>Clear Data</b></td>
+    <td><img src="/Output/Confirmation.png" width="250" alt="Confirmation"><br><b>Confirmation</b></td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center"><img src="/Output/FinalView.png" width="250" alt="Final View"><br><b>Final View</b></td>
+  </tr>
+</table>
 ##  Dependencies
 ```xml
 <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
